@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grievance Portal for Urooj 🐾</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #bbdaee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background-color: #89b9e8;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      position: relative;
+    }
+    h2 {
+      color: #0077cc;
+      font-family: 'Pacifico', cursive;
+      font-size: 26px;
+    }
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+    input[type="text"], textarea, select {
+      background-color: #f0f8ff;
+    }
+    button {
+      background-color: #66b3ff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #3399ff;
+    }
+    .cat-img {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 15px;
+    }
+    .thank-you {
+      display: none;
+      background-color: #d0f0ff;
+      color: #005c99;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 15px;
+      font-size: 18px;
+      animation: popIn 0.5s ease forwards;
+    }
+    @keyframes floatUp {
+      to {
+        transform: translateY(-100vh);
+        opacity: 0;
+      }
+    }
+    @keyframes popIn {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://png.pngtree.com/png-clipart/20230405/original/pngtree-cute-cat-3d-rendering-png-image_9021181.png" alt="Cute Cat" class="cat-img" />
+    <h2>Grievance Portal for Urooj 🐱</h2>
+    <p>Hi my little baby, you can fill your complaints here 💌</p>
+    
+    <form id="grievance-form" action="https://formspree.io/f/mldbvznd" method="POST">
+      <input type="hidden" name="name" value="Urooj 💕" />
+      <input type="text" name="title" placeholder="Title of Complaint" required />
+      <textarea name="message" placeholder="Write your grievance..." required></textarea>
+
+      <label>Mood:</label>
+      <select name="mood" required>
+        <option disabled selected value="">Select mood</option>
+        <option>😭 idk</option>
+        <option>💕 obsessed</option>
+        <option>😡 Angry</option>
+        <option>😢 Sad</option>
+        <option>🥺 Soft</option>
+        <option>😤 Annoyed</option>
+      </select>
+
+      <label>Severity (1-5):</label>
+      <select name="severity" required>
+        <option disabled selected value="">Select severity</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+
+      <button type="submit">Submit 💌</button>
+    </form>
+
+    <div class="thank-you" id="thank-you-msg">
+      🐱 Your complaint is filled my princess, I'll look for it soon 💖🐾
+    </div>
+  </div>
+
+  <audio id="chime" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_71b3e61f2e.mp3?filename=cute-level-up-3-189853.mp3" preload="auto"></audio>
+
+  <script>
+    // Floating hearts animation
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.innerHTML = '💗';
+      heart.style.position = 'fixed';
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.top = '100vh';
+      heart.style.fontSize = '24px';
+      heart.style.animation = 'floatUp 4s linear forwards';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 4000);
+    }, 1000);
+
+    // Form submission with thank-you message and chime
+    document.getElementById("grievance-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        if (response.ok) {
+          form.reset();
+          const msg = document.getElementById("thank-you-msg");
+          msg.style.display = "block";
+          msg.style.animation = "popIn 0.5s ease forwards";
+          document.getElementById("chime").play();
+        } else {
+          alert("Something went wrong! Try again later 💔");
+        }
+      }).catch(() => {
+        alert("Network error! Please try again 💔");
+      });
+    });
+  </script>
+</body>
+</html>
